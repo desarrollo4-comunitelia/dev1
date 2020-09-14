@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import ListOfImages from "./components/ListOfImages";
 import { Link, Route } from "wouter";
+import Home from "./pages/Home";
+import StaticContext from "./context/StatictContext";
+import { DetalleImagenes } from "./pages/Detail";
+import { ImageContextProvider } from "./context/ImageContext";
 
 function App() {
   return (
-    <div className="App">
-      <section className="App-content">
-        <Link to="/image/cats">Imágenes de gatos</Link>
-        <Link to="/image/dogs">Imágenes de perros</Link>
-        <Link to="/image/bird">Imágenes de pájaros</Link>
-        <Route path="/image/:keyword" component={ListOfImages} />
-      </section>
-    </div>
+    <StaticContext.Provider value={{ name: "Jesus", pruebaContext: true }}>
+      <div className="App">
+        <section className="App-content">
+          <ImageContextProvider>
+            <Route path="/" component={Home} />
+            <Route path="/imagenes/:keyword" component={ListOfImages} />
+            <Route path="/imagedetail/:keyword" component={DetalleImagenes} />
+          </ImageContextProvider>
+        </section>
+      </div>
+    </StaticContext.Provider>
   );
 }
 

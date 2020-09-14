@@ -1,25 +1,13 @@
-import React, { useState, useEffect } from "react";
-import getImages from "../services/getImages";
+import React from "react";
 import Images from "./Images";
+import { useImageList } from "../hooks/useImageList";
 
 export default function ListOfImages({ params }) {
   const { keyword } = params;
-  const [loading, setLoading] = useState(false);
 
-  const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    setLoading(true);
-    async function llamargetImages() {
-      //Service getImages
-      await getImages({ keyword }).then((array_img) => setImages(array_img));
-      setLoading(false);
-    }
-    llamargetImages();
-  }, [keyword]);
+  const { loading, images } = useImageList({ keyword });
 
   if (loading) return <i>Cargando...</i>;
-
   return (
     <div>
       {images.map(({ id, webformatURL, user, type, likes }) => (
